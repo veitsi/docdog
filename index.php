@@ -28,7 +28,7 @@
 <?php include "header.html" ?>
 
 <section>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3">
                 <div class="left-sidebar">
@@ -46,8 +46,8 @@
                         </div>
                     </div><!--/category-products-->
 
-                    <div class="shipping text-center"><!--shipping-->
-                        <img src="images/docdoge.jpg" alt="check ya doc"/>
+                    <div class="shipping text-center" style="margin-left: 15px"><!--shipping-->
+                        <img src="images/docdoge-small.jpg" alt="check ya doc"/>
                     </div><!--/shipping-->
                     <div class="price-range"><!--price-range-->
                         <h2>level of deepness</h2>
@@ -67,26 +67,40 @@
                         <div id="reviews">
                             <div></div>
                             <div class="col-sm-12">
-                                <ul>
-                                    <li><a href=""><i class="fa fa-user"></i>anonymous</a></li>
-                                    <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-                                    <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
-                                </ul>
-                                <p><b>Insert here your contract</b></p>
+<!--                                <ul>-->
+<!--                                    <li><a href=""><i class="fa fa-user"></i>anonymous</a></li>-->
+<!--                                    <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>-->
+<!--                                    <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>-->
+<!--                                </ul>-->
+                                <p><b>Введіть текст контракту</b></p>
 
-                                <form action="#">
-                                    <textarea name=""></textarea>
-                                    <span>
-											<input type="text" placeholder="Your Name"/>
-											<input type="email" placeholder="Email Address"/>
-										</span>
+                                <form id="docform">
+                                    <textarea rows="5" id="input"                                         name="input"><?php require "sample01.txt"; ?></textarea>
+<!--                                    <span>-->
+<!--											<input type="text" placeholder="Your Name"/>-->
+<!--											<input type="email" placeholder="Email Address"/>-->
+<!--										</span>-->
 
-                                    <button type="button" class="btn btn-default pull-right">
-                                        check
+                                    <button id="checkdoc" type="button" class="btn btn-default pull-right">
+                                        перевірити
                                     </button>
                                 </form>
                             </div>
+                            <div id="results">
+                                <br><center>обʼєкт для договору</center><br>
+                                <textarea id="t0" name="t0"></textarea>
+                                <br><center>мета заключення договору</center><br>
+                                <textarea id="t1" name="t1"></textarea>
+                                <br><center>вартість договору</center><br>
+                                <textarea id="t2" name="t2"></textarea>
+                                <br><center>період дії договору</center><br>
+                                <textarea id="t3" name="t3"></textarea>
+                                <br><center>відповідальність сторін</center><br>
+                                <textarea id="t4" name="t4"></textarea>
+                            </div>
+
                         </div>
+
                     </div>
                 </div><!--/send-doc-->
             </div>
@@ -102,5 +116,22 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.prettyPhoto.js"></script>
 <script src="js/main.js"></script>
+<script>
+    $('#results').hide();
+    $('#checkdoc').click(function () {
+        console.log($('#input').val());
+        $.post("core.php",{'input':$('#input').val()} , function(data, status){
+            var targets = JSON.parse(data);
+            console.log(targets);
+            $('#t0').val(targets[0]);
+            $('#t1').val(targets[1]);
+            $('#t2').val(targets[2]);
+            $('#t3').val(targets[3]);
+            $('#t4').val(targets[4]);
+
+            $('#results').show();
+        });
+    })
+</script>
 </body>
 </html>
